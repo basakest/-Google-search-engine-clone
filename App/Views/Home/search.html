@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to doodle{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        <div class="header">
+            <div class="headerContent">
+                <div class="logoContainer">
+                    <a href="/Home/search">
+                        <img src="/assets/images/logo.png" alt="the logo" />
+                    </a>
+                </div>
+                <div class="searchContainer">
+                    <form action="" method="GET">
+                        <input type="text" name="term" class="searchBox" />
+                        <button class="searchButton">
+                            <img src="/assets/images/icons/search.png" alt="search icon" />
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="tabContainer">
+                <div class="tabList">
+                    <ul>
+                        <li class="{% if type == 'sites' %} active {% endif %}">
+                            <a href="/Home/search?term={{ term }}&type=sites">Sites</a>
+                        </li>
+                        <li class="{% if type == 'images' %} active {% endif %}">
+                            <a href="/Home/search?term={{ term }}&type=images">Images</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

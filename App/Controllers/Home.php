@@ -12,6 +12,12 @@ class Home extends \Core\Controller
 
     public function searchAction()
     {
-        echo $_GET['term'];
+        if (isset($_GET['term'])) {
+            $term = $_GET['term'];
+        } else {
+            exit('No term is entered');
+        }
+        $type = isset($_GET['type'])?$_GET['type']:'sites';
+        View::renderTemplate('Home/search.html', ['term' => $term, 'type' => $type]);
     }
 }

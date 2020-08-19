@@ -22,11 +22,7 @@ $router ->add('admin/{controller}/{action}', ['namespace' => 'Admin']);
 $url = $_SERVER['QUERY_STRING'];
 
 $router->dispatch($url);
-/*
-echo '<pre>';
-var_dump($router->getRoutes());
-echo '</pre>';
-*/
+
 
 
 

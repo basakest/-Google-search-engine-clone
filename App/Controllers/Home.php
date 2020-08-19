@@ -7,25 +7,11 @@ class Home extends \Core\Controller
 {
     public function indexAction()
     {
-        /*echo "this is a test message";
-        View::render('Home/index.php', [
-            'name' => 'alice',
-            'colors' => ['red', 'green', 'blue']
-        ]);*/
-
-        View::renderTemplate('Home/index.html', [
-            'name' => 'alice',
-            'colors' => ['red', 'blue', 'green']
-        ]);
+        View::renderTemplate('Home/index.html');
     }
 
-    protected function before()
+    public function searchAction()
     {
-        return true;
-    }
-
-    protected function after()
-    {
-        
+        echo $_GET['term'];
     }
 }

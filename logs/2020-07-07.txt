@@ -1,0 +1,21 @@
+[07-Jul-2020 12:35:05 UTC] Uncaught exception: 'Exception'Message: 'No route matched.'
+Stack trace:#0 /Library/WebServer/Documents/www/framework/public/index.php(24): Core\Router->dispatch('a')
+#1 {main}
+Thrown in '/Library/WebServer/Documents/www/framework/Core/Router.php' on line 125
+[07-Jul-2020 12:35:05 UTC] Uncaught exception: 'Exception'Message: 'No route matched.'
+Stack trace:#0 /Library/WebServer/Documents/www/framework/public/index.php(24): Core\Router->dispatch('favicon.ico')
+#1 {main}
+Thrown in '/Library/WebServer/Documents/www/framework/Core/Router.php' on line 125
+[07-Jul-2020 13:10:54 UTC] Uncaught exception: 'Exception'Message: 'Method indexsAction not found in controller App\Controllers\Posts'
+Stack trace:#0 /Library/WebServer/Documents/www/framework/Core/Router.php(115): Core\Controller->__call('indexs', Array)
+#1 /Library/WebServer/Documents/www/framework/public/index.php(24): Core\Router->dispatch('posts/indexs')
+#2 {main}
+Thrown in '/Library/WebServer/Documents/www/framework/Core/Controller.php' on line 47
+[07-Jul-2020 13:11:30 UTC] Uncaught exception: 'Exception'Message: 'No route matched.'
+Stack trace:#0 /Library/WebServer/Documents/www/framework/public/index.php(24): Core\Router->dispatch('posts/indexs/')
+#1 {main}
+Thrown in '/Library/WebServer/Documents/www/framework/Core/Router.php' on line 125
+[07-Jul-2020 13:11:59 UTC] Uncaught exception: 'Exception'Message: 'No route matched.'
+Stack trace:#0 /Library/WebServer/Documents/www/framework/public/index.php(24): Core\Router->dispatch('posts/indexs/')
+#1 {main}
+Thrown in '/Library/WebServer/Documents/www/framework/Core/Router.php' on line 125

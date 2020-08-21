@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Controllers;
+
 use Core\View;
+use App\Crawl;
 
 class Home extends \Core\Controller
 {
@@ -19,5 +21,11 @@ class Home extends \Core\Controller
         }
         $type = isset($_GET['type'])?$_GET['type']:'sites';
         View::renderTemplate('Home/search.html', ['term' => $term, 'type' => $type]);
+    }
+
+    public function testAction()
+    {
+        $crawl = new Crawl();
+        $crawl->followLinks($crawl->startUrl);
     }
 }

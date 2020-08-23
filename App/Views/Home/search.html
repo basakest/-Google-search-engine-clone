@@ -13,7 +13,7 @@
                 </div>
                 <div class="searchContainer">
                     <form action="" method="GET">
-                        <input type="text" name="term" class="searchBox" />
+                        <input type="text" name="term" class="searchBox" value="{{ term }}" />
                         <button class="searchButton">
                             <img src="/assets/images/icons/search.png" alt="search icon" />
                         </button>
@@ -30,6 +30,49 @@
                             <a href="/Home/search?term={{ term }}&type=images">Images</a>
                         </li>
                     </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mainResultsSection">
+            <p class="resultsCount">{{ total }} results found</p>
+            <div class="siteResults">
+                {% for result in results %}
+                    <div class="resultsContainer">
+                        <h3 class="title">
+                            <a href="{{ result.url }}" class="result">
+                                {{ result.title }}
+                            </a>
+                        </h3>
+                        <span class="url">{{ result.url }}</span>
+                        <span class="description">{{ result.description }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="paginationContainer">
+            <div class="pageButtons">
+                <div class="pageNumberContainer">
+                    <img src="/assets/images/pageStart.png" />
+                </div>
+                {% for i in startPage..startPage + pagesLeft -1 %}
+                    {% if i <= numPages %}
+                        {% if i == page %}
+                            <div class="pageNumberContainer">
+                                <img src="/assets/images/pageSelected.png" />
+                                <span class="pageNumber">{{ i }}</span>
+                            </div>
+                        {% else %}
+                            <div class="pageNumberContainer">
+                                <a href="/Home/Search?term={{term}}&type={{type}}&page={{i}}">
+                                    <img src="/assets/images/page.png" />
+                                    <span class="pageNumber">{{ i }}</span>
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                <div class="pageNumberContainer">
+                    <img src="/assets/images/pageEnd.png" />
                 </div>
             </div>
         </div>

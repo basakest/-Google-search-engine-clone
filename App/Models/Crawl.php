@@ -20,7 +20,7 @@ class Crawl extends \Core\Model
     public static function insertImage($url, $src, $alt, $title)
     {
         $db = self::getDB();
-        $stmt = $db->prepare("insert into sites(siteUrl, imageUrl, alt, title) values (:siteUrl, :imageUrl, :alt, :title)");
+        $stmt = $db->prepare("insert into images(siteUrl, imageUrl, alt, title) values (:siteUrl, :imageUrl, :alt, :title)");
         $stmt->bindValue(':siteUrl', $url, PDO::PARAM_STR);
         $stmt->bindValue(':imageUrl', $src, PDO::PARAM_STR);
         $stmt->bindValue(':alt', $alt, PDO::PARAM_STR);
@@ -32,10 +32,10 @@ class Crawl extends \Core\Model
     public static function linkExists($url)
     {
         $db = static::getDB();
-        $stmt = $db->prepare("select count(*) as num from sites where url = $url");
+        $stmt = $db->prepare("select count(*) as num from sites where url = :url");
         $stmt->bindValue(':url', $url, PDO::PARAM_STR);
         $stmt->execute();
-        $res = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $res !== 0;
+        $num = $stmt->fetch(PDO::FETCH_ASSOC)['num'];
+        return $num !== '0';
     }
 }

@@ -17,4 +17,6 @@ class Config
 
     const SHOW_ERRORS = true;
 
+    const PAGE_SIZE = 20;
+
 }

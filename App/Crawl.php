@@ -7,7 +7,7 @@ use App\Models\Crawl as Crawl_db;
 
 class Crawl
 {
-    public $startUrl = "http://reecekenney.com/";
+    public $startUrl = "https://twig.symfony.com/";
 
     /**
      * the url that has been crawled
@@ -36,6 +36,8 @@ class Crawl
         $parser = new DomDocumentParser($url);
         //这一步第一次时获取用$url创建的文档对象中的所有<a>标签
         $linkList = $parser->getLinks();
+        //var_dump(($linkList));
+        //exit();
         //这里第一次遍历最初那个网页中的URL
         foreach ($linkList as $link) {
             $href = $link->getAttribute('href');
@@ -54,17 +56,21 @@ class Crawl
             }
             //将网址的相对路径转换为绝对路径
             $href = $this->createLinks($href, $url);
+            //echo $href . '<br />';exit;
             //检查网址有没有被爬取
+            
             if (!in_array($href, $this->alreadyCrawled)) {
                 $this->alreadyCrawled[] = $href;
                 $this->crawling[] = $href;
-                //insert here
+                //echo $href . '<br />';
                 $this->getDetails($href);
             }
+        
             //下面这行代码在该网址已被爬取时触发，结束该函数的执行。
             //所以说只要遇到一个已爬取过的网址，就停止递归中一个函数的执行
             //else return;添加这行代码可以显著减少要爬取网站的数量
         } //这个foreach结束之后，$this->alreadyCrawled和$this->crawing中的值就添加了这个网页中a标签的href属性
+        //exit();
         array_shift($this->crawling);//这里还没太理解
         foreach($this->crawling as $site) {
             $this->followLinks($site);
@@ -73,24 +79,33 @@ class Crawl
 
     public function getDetails($url)
     {
+        //echo $url;exit();
         $parser = new DomDocumentParser($url);
         $titleArray = $parser->getTitleTags();
-        if (sizeof($titleArray) == 0 || $titleArray->item(0)->nodeValue == Null) {
+        //var_dump($titleArray);exit;
+        //if (sizeof($titleArray) == 0 || $titleArray->item(0)->nodeValue == Null) {
+        if (sizeof($titleArray) == 0 || $titleArray->item(0) == NULL) {
             return;
         }
         $title = $titleArray->item(0)->nodeValue;
         $title = str_replace('\n', '', $title);
-        if ($title = '') {
+        //var_dump($title);exit;  string(5) "Apple"
+        if ($title == '') {
             return;
         }
+
+        //var_dump($url, !Crawl_db::linkExists($url));
+        //echo '<br />';exit();
+        
         $description = '';
         $keywords = '';
         $metaArray = $parser->getMetaTags();
         foreach($metaArray as $meta) {
-            if ($meta->getAttribute('name') == 'description') {
+            //name = 'Description'好像读取不了？明天试着修一下
+            if (strtolower($meta->getAttribute('name')) == 'description') {
                 $description = $meta->getAttribute('content');
             }
-            if ($meta->getAttribute('name') == 'keywords') {
+            if (strtolower($meta->getAttribute('name')) == 'keywords') {
                 $keywords = $meta->getAttribute('content');
             }
         }
@@ -98,20 +113,22 @@ class Crawl
         $keywords = str_replace('\n', '', $keywords);
         if (!Crawl_db::linkExists($url)) {
             Crawl_db::insertLink($url, $title, $description, $keywords);
+            //exit();
         }
+
         $imageArray = $parser->getImages();
         foreach ($imageArray as $image) {
             $src = $image->getAttribute('src');
             $alt = $image->getAttribute('alt');
-            $title = $image->getAttribute('title');
-            if (!$title && $alt) {
+            $title_img = $image->getAttribute('title');
+            if (!$title_img && $alt) {
                 continue;
             }
             $src = $this->createLinks($src, $url);
             if (!in_array($src, $this->alreadyFoundImages)) {
                 $this->alreadyFoundImages[] = $src;
                 //爬取图片时没有对已爬取的网站进行记录，因为网址中图片的更新频率可能很频繁
-                Crawl_db::insertImage($url, $src, $alt, $title);
+                Crawl_db::insertImage($url, $src, $alt, $title_img);
             }
         }
     }

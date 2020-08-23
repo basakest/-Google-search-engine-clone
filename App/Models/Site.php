@@ -26,7 +26,7 @@ class Site extends \Core\Model
     public static function getResults($offset, $pageSize, $term)
     {
         $db = static::getDB();
-        $stmt = $db->prepare("select url, 
+        $stmt = $db->prepare("select id, url, 
                               case when CHARACTER_LENGTH(title) > 55
                                 then CONCAT(left(title, 55), '...')
                                 else title
@@ -50,5 +50,19 @@ class Site extends \Core\Model
         $stmt->bindValue(':pageSize', $pageSize, PDO::PARAM_INT);
         $stmt->execute();
         return $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * 根据$id的值更新sites表对应的数据行的clicks的数据
+     *
+     * @param [int] $id
+     * @return void
+     */
+    public static function updateLinkClicks($id)
+    {
+      $db = static::getDB();
+      $stmt = $db->prepare("update sites set clicks = clicks + 1 where id = :id");
+      $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+      $stmt->execute();
     }
 }

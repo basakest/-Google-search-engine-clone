@@ -14,6 +14,7 @@
                 <div class="searchContainer">
                     <form action="" method="GET">
                         <input type="text" name="term" class="searchBox" value="{{ term }}" />
+                        <input type="hidden" name="type" value="{{ type }}">
                         <button class="searchButton">
                             <img src="/assets/images/icons/search.png" alt="search icon" />
                         </button>
@@ -39,7 +40,7 @@
                 {% for result in results %}
                     <div class="resultsContainer">
                         <h3 class="title">
-                            <a href="{{ result.url }}" class="result">
+                            <a href="{{ result.url }}" class="result" data-linkId="{{ result.id }}">
                                 {{ result.title }}
                             </a>
                         </h3>
@@ -54,7 +55,7 @@
                 <div class="pageNumberContainer">
                     <img src="/assets/images/pageStart.png" />
                 </div>
-                {% for i in startPage..startPage + pagesLeft -1 %}
+                {% for i in startPage..startPage + pagesLeft - 1 %}
                     {% if i <= numPages %}
                         {% if i == page %}
                             <div class="pageNumberContainer">
@@ -77,4 +78,8 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script src="/assets/js/script.js"></script>
 {% endblock %}

@@ -19,4 +19,6 @@ class Config
 
     const PAGE_SIZE = 20;
 
+    const CHECK_IMAGE = true;
+
 }

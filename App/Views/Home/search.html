@@ -34,22 +34,41 @@
                 </div>
             </div>
         </div>
+
         <div class="mainResultsSection">
             <p class="resultsCount">{{ total }} results found</p>
-            <div class="siteResults">
-                {% for result in results %}
-                    <div class="resultsContainer">
-                        <h3 class="title">
-                            <a href="{{ result.url }}" class="result" data-linkId="{{ result.id }}">
-                                {{ result.title }}
+            {% if type == 'sites' %}
+                <div class="siteResults">
+                    {% for result in results %}
+                        <div class="resultsContainer">
+                            <h3 class="title">
+                                <a href="{{ result.url }}" class="result" data-linkId="{{ result.id }}">
+                                    {{ result.title }}
+                                </a>
+                            </h3>
+                            <span class="url">{{ result.url }}</span>
+                            <span class="description">{{ result.description }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% elseif type == 'images' %}
+                <div class="imageResults">
+                    {% for result in results %}
+                        <div class="gridItem image{{ loop.index }}">
+                            <a href="{{ result.imageUrl }}" data-fancybox data-caption={{result.displayText}} data-siteurl={{result.siteUrl}}>
+                                <script>
+                                    $(document).ready(function() {
+                                        loadImage("{{ result.imageUrl }}", "image{{ loop.index }}");
+                                    })
+                                </script>
+                                <span class="details">{{ result.displayText }}</span>
                             </a>
-                        </h3>
-                        <span class="url">{{ result.url }}</span>
-                        <span class="description">{{ result.description }}</span>
-                    </div>
-                {% endfor %}
-            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
+
         <div class="paginationContainer">
             <div class="pageButtons">
                 <div class="pageNumberContainer">
@@ -81,5 +100,7 @@
 {% endblock %}
 
 {% block js %}
+    <script src="/assets/js/masonry.pkgd.min.js"></script>
     <script src="/assets/js/script.js"></script>
+    <script src="/assets/js/jquery.fancybox.min.js"></script>
 {% endblock %}

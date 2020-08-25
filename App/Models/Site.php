@@ -27,11 +27,13 @@ class Site extends \Core\Model
     {
         $db = static::getDB();
         $stmt = $db->prepare("select id, url, 
-                              case when CHARACTER_LENGTH(title) > 55
+                              case 
+                                when CHARACTER_LENGTH(title) > 55
                                 then CONCAT(left(title, 55), '...')
                                 else title
                               end as title,
-                              case when CHARACTER_LENGTH(description) > 230
+                              case 
+                                when CHARACTER_LENGTH(description) > 230
                                 then CONCAT(left(description, 230), '...')
                                 else description
                               end as description,
